@@ -21,24 +21,6 @@ const EVAPORATE_MS = 900;
 /** Minimum time on the distilling screen (Act 2) from first Enter, in ms */
 const MIN_DISTILL_MS = 2500;
 
-/** Local config: create a `.env` file in the project root (see `.env.example`). Restart `npm run dev` after changes. */
-function normalizeEnvKey(raw) {
-  let k = (raw || "").replace(/\r/g, "").trim();
-  if (
-    (k.startsWith('"') && k.endsWith('"')) ||
-    (k.startsWith("'") && k.endsWith("'"))
-  ) {
-    k = k.slice(1, -1).trim();
-  }
-  return k;
-}
-
-const API_KEY = normalizeEnvKey(import.meta.env.VITE_PAPER_PILL_API_KEY);
-const API_URL =
-  import.meta.env.VITE_PAPER_PILL_API_URL ||
-  "https://api.deepseek.com/v1/chat/completions";
-const API_MODEL = import.meta.env.VITE_PAPER_PILL_API_MODEL || "deepseek-chat";
-
 function createTimestamp() {
   const now = new Date();
   const y = now.getFullYear();
@@ -93,10 +75,8 @@ function App() {
     const t0 = distillStartedAt;
     let next;
     try {
-      next = await fetchPaperPillPrescription(userConfession, API_KEY, {
+      next = await fetchPaperPillPrescription(userConfession, {
         signal,
-        apiUrl: API_URL,
-        model: API_MODEL,
         rejectedTitles,
       });
       setOracleError(null);
