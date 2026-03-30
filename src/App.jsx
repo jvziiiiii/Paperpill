@@ -252,13 +252,25 @@ function App() {
         }
       : {};
 
+  const acceptPrescription = useCallback(() => {
+    setTimestamp(createTimestamp());
+    setPhase(PHASES.ACCEPTED);
+  }, []);
+
+  const discardPrescription = useCallback(() => {
+    setRejectedBooks((prev) => [...prev, currentPrescription.book]);
+    setPhase(PHASES.DISCARDING);
+  }, [currentPrescription.book]);
+
   const onInputChange = (event) => {
     const next = event.target.value;
     setInput(next);
     if (!hasTyped && next.length > 0) setHasTyped(true);
 
     event.target.style.height = "auto";
-    event.target.style.height = `${Math.min(event.target.scrollHeight, 280)}px`;
+    const maxHeight =
+      window.innerWidth < 768 ? Math.floor(window.innerHeight * 0.7) : 280;
+    event.target.style.height = `${Math.min(event.target.scrollHeight, maxHeight)}px`;
   };
 
   const isDistilling = phase === PHASES.EVAPORATING || phase === PHASES.VOID;
@@ -269,7 +281,7 @@ function App() {
     phase === PHASES.ACCEPTED;
 
   return (
-    <main className="relative flex min-h-screen w-full items-center justify-center overflow-x-hidden px-6 text-[#111111]">
+    <main className="relative flex min-h-screen w-full items-center justify-center overflow-x-hidden p-4 text-[#111111] md:px-6">
       {oracleError && (
         <div
           className="fixed inset-x-0 top-0 z-[100] max-h-[45vh] overflow-y-auto border-b border-[#444] bg-[#1e1e1c]/96 px-4 py-3 text-center shadow-lg"
@@ -315,7 +327,7 @@ function App() {
                   beginDistillation();
                 }
               }}
-              className="paper-input max-h-[280px] min-h-[68px] w-full resize-none text-center text-4xl md:text-5xl"
+              className="paper-input h-[70vh] max-h-[70vh] min-h-[70vh] w-full resize-none px-2 py-2 text-center text-lg md:h-auto md:max-h-[280px] md:min-h-[68px] md:px-0 md:py-0 md:text-5xl"
               placeholder="Unload your mind."
             />
           </motion.section>
@@ -324,7 +336,7 @@ function App() {
         {phase === PHASES.EVAPORATING && (
           <motion.section
             key="evaporating"
-            className="relative flex min-h-[260px] w-full max-w-5xl items-center justify-center overflow-visible px-4"
+            className="relative flex min-h-[260px] w-full max-w-5xl flex-col items-center justify-center gap-6 overflow-visible px-4 text-center"
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -356,14 +368,16 @@ function App() {
           </motion.section>
         )}
 
-        {phase === PHASES.VOID && <section key="void" className="h-[280px] w-full" />}
+        {phase === PHASES.VOID && (
+          <section key="void" className="h-[280px] w-full" />
+        )}
 
         {(phase === PHASES.REVEAL ||
           phase === PHASES.DISCARDING ||
           phase === PHASES.ACCEPTED) && (
           <motion.section
             key={`reveal-${revealNonce}`}
-            className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center touch-pan-y"
+            className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center touch-pan-y pb-36 md:pb-0"
             {...revealTouchHandlers}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -451,7 +465,7 @@ function App() {
                     ) : (
                       <>
                         <motion.blockquote
-                          className="relative z-[1] font-serif text-4xl font-black leading-tight md:text-6xl"
+                          className="relative z-[1] font-mono text-2xl font-semibold leading-tight md:font-serif md:text-6xl md:font-black"
                           initial="hidden"
                           animate="visible"
                           variants={{
@@ -514,7 +528,7 @@ function App() {
                         </motion.blockquote>
 
                         <motion.p
-                          className="mt-9 font-mono text-xs uppercase tracking-[0.22em] text-[#555] md:text-sm"
+                          className="mt-6 font-mono text-xs uppercase tracking-[0.18em] text-[#555] md:mt-9 md:tracking-[0.22em] md:text-sm"
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.35, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -522,7 +536,7 @@ function App() {
                           {currentPrescription.book} - {currentPrescription.author}
                         </motion.p>
                         <motion.p
-                          className="mx-auto mt-6 max-w-2xl font-mono text-sm leading-relaxed text-[#3f3f3f] md:text-base"
+                          className="mx-auto mt-4 max-w-2xl font-mono text-sm leading-relaxed text-[#3f3f3f] md:mt-6 md:text-base"
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.48, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -536,23 +550,26 @@ function App() {
               </motion.div>
             </motion.div>
 
-            <AnimatePresence>
-              {phase === PHASES.REVEAL && (
-                <motion.div
-                  key="discard-hint"
-                  className="mt-12"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.85, transition: { delay: 0.65, duration: 0.5 } }}
-                  exit={{ opacity: 0, transition: { duration: 0.42 } }}
-                >
-                  <div className="flex items-center justify-center gap-4 font-mono text-xs tracking-[0.2em] text-neutral-500 opacity-50 animate-pulse">
-                    <span>Press [Enter] to print prescription.</span>
-                    <span>·</span>
-                    <span>Press [Space] to discard.</span>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {phase === PHASES.REVEAL && (
+              <div className="fixed bottom-0 left-0 right-0 z-[20] bg-[#f5f5f3] p-4 md:static md:z-auto md:bg-transparent md:p-0">
+                <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 md:hidden">
+                  <button
+                    type="button"
+                    className="min-h-[52px] w-full border border-black bg-black px-4 py-3 text-center font-mono text-sm uppercase tracking-[0.18em] text-white"
+                    onClick={acceptPrescription}
+                  >
+                    Accept Prescription
+                  </button>
+                  <button
+                    type="button"
+                    className="min-h-[52px] w-full border-2 border-black bg-white px-4 py-3 text-center font-mono text-sm uppercase tracking-[0.18em] text-black"
+                    onClick={discardPrescription}
+                  >
+                    Discard
+                  </button>
+                </div>
+              </div>
+            )}
 
             {phase === PHASES.ACCEPTED && (
               <>
