@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Roboto+Mono:wght@400;500&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #f5f5f3;
+  color: #111111;
+  font-family: "Roboto Mono", "Courier New", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.paper-noise {
+  opacity: 0.45;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.13'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.paper-input {
+  border: none;
+  background: transparent;
+  color: #111111;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  outline: none;
+}
+
+.paper-input::placeholder {
+  color: #8a8a8a;
+  font-weight: 700;
+}
+
+.receipt-frame {
+  position: relative;
+  border: 1px solid rgba(17, 17, 17, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(17, 17, 17, 0.07);
+}
+
+/* Act 4 capture target: solid paper behind type so html2canvas matches the UI */
+.paper-rx-capture {
+  background-color: #f5f5f3;
+}
+
+.receipt-frame::before,
+.receipt-frame::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  pointer-events: none;
+}
+
+.receipt-frame::before {
+  inset: 10px;
+}
+
+.receipt-frame::after {
+  inset: 20px;
+}
+
+.rx-stamp {
+  color: #595959;
+  letter-spacing: 0.14em;
+  font-family: "Roboto Mono", "Courier New", monospace;
+}
+
+/* Act 3 — book title underlay (≈5% ink on paper) */
+.act3-book-watermark {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Roboto Mono",
+    "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  color: #1111110d;
+  text-align: center;
+  word-break: break-word;
+  font-size: clamp(2.5rem, min(14vw, 16vh), 9.5rem);
+  user-select: none;
+}
