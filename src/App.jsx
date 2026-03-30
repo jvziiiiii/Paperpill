@@ -211,6 +211,14 @@ function App() {
 
   useEffect(() => {
     const onKeyDown = (event) => {
+      if (
+        event.target.tagName === "TEXTAREA" ||
+        event.target.tagName === "INPUT" ||
+        event.target.isContentEditable
+      ) {
+        return;
+      }
+
       if (event.key === "Enter") {
         if (phase === PHASES.INPUT && input.trim()) {
           event.preventDefault();
