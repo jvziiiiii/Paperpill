@@ -642,7 +642,7 @@ function App() {
           ease: "easeInOut",
         }}
       >
-        {isDistilling ? "- distilling." : "- I'm listening."}
+        {isDistilling || hideCornerLine ? "- distilling." : "- I'm listening."}
       </motion.p>
     </main>
   );
