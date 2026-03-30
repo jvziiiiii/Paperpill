@@ -8,6 +8,8 @@ body,
 #root {
   width: 100%;
   min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -34,6 +36,8 @@ body {
   font-weight: 700;
   line-height: 1.2;
   outline: none;
+  font-kerning: none;
+  font-variant-ligatures: none;
 }
 
 .paper-input::placeholder {
