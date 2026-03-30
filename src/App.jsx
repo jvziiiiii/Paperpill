@@ -267,10 +267,10 @@ function App() {
     setInput(next);
     if (!hasTyped && next.length > 0) setHasTyped(true);
 
+    if (window.innerWidth < 768) return;
+
     event.target.style.height = "auto";
-    const maxHeight =
-      window.innerWidth < 768 ? Math.floor(window.innerHeight * 0.7) : 280;
-    event.target.style.height = `${Math.min(event.target.scrollHeight, maxHeight)}px`;
+    event.target.style.height = `${Math.min(event.target.scrollHeight, 280)}px`;
   };
 
   const isDistilling = phase === PHASES.EVAPORATING || phase === PHASES.VOID;
