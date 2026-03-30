@@ -45,15 +45,6 @@ body {
   font-weight: 700;
 }
 
-/* Mobile typing stability: keep serif look with a less jitter-prone system stack */
-@media (max-width: 767px) {
-  .paper-input {
-    font-family: Georgia, "Times New Roman", Times, serif;
-    font-weight: 700;
-    line-height: 1.18;
-  }
-}
-
 .receipt-frame {
   position: relative;
   border: 1px solid rgba(17, 17, 17, 0.22);

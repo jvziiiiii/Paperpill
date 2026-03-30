@@ -312,7 +312,7 @@ function App() {
         {phase === PHASES.INPUT && (
           <motion.section
             key="input"
-            className="flex w-full max-w-4xl items-center justify-center"
+            className="flex w-full max-w-4xl items-start justify-center pt-6 md:items-center md:pt-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.45 } }}
