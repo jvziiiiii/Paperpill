@@ -330,7 +330,7 @@ function App() {
                   beginDistillation();
                 }
               }}
-              className="paper-input h-[70svh] max-h-[70svh] min-h-[70svh] w-full resize-none px-2 py-2 text-left text-4xl md:h-auto md:max-h-[280px] md:min-h-[68px] md:px-0 md:py-0 md:text-center md:text-5xl"
+              className="paper-input paper-input-mobile-stable h-[70svh] max-h-[70svh] min-h-[70svh] w-full resize-none px-2 py-2 text-left text-4xl md:h-auto md:max-h-[280px] md:min-h-[68px] md:px-0 md:py-0 md:text-center md:text-5xl"
               placeholder="Unload your mind."
             />
           </motion.section>

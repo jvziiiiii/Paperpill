@@ -45,6 +45,15 @@ body {
   font-weight: 700;
 }
 
+@media (max-width: 767px) {
+  .paper-input-mobile-stable {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+}
+
 .receipt-frame {
   position: relative;
   border: 1px solid rgba(17, 17, 17, 0.22);
