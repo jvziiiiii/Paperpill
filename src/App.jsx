@@ -327,7 +327,7 @@ function App() {
                   beginDistillation();
                 }
               }}
-              className="paper-input h-[70vh] max-h-[70vh] min-h-[70vh] w-full resize-none px-2 py-2 text-center text-lg md:h-auto md:max-h-[280px] md:min-h-[68px] md:px-0 md:py-0 md:text-5xl"
+              className="paper-input h-[70vh] max-h-[70vh] min-h-[70vh] w-full resize-none px-2 py-2 text-center text-4xl md:h-auto md:max-h-[280px] md:min-h-[68px] md:px-0 md:py-0 md:text-5xl"
               placeholder="Unload your mind."
             />
           </motion.section>
@@ -465,7 +465,7 @@ function App() {
                     ) : (
                       <>
                         <motion.blockquote
-                          className="relative z-[1] font-mono text-2xl font-semibold leading-tight md:font-serif md:text-6xl md:font-black"
+                          className="relative z-[1] font-serif text-2xl font-black leading-tight md:text-6xl"
                           initial="hidden"
                           animate="visible"
                           variants={{
