@@ -329,6 +329,7 @@ function App() {
               ref={textareaRef}
               value={input}
               onChange={onInputChange}
+              autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck={false}
