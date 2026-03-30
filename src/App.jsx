@@ -568,6 +568,12 @@ function App() {
                     Discard
                   </button>
                 </div>
+
+                <div className="mx-auto hidden w-full max-w-5xl items-center justify-center gap-4 font-mono text-xs tracking-[0.2em] text-neutral-500 opacity-50 animate-pulse md:flex">
+                  <span>Press [Enter] to print prescription.</span>
+                  <span>·</span>
+                  <span>Press [Space] to discard.</span>
+                </div>
               </div>
             )}
 
