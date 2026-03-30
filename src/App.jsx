@@ -626,6 +626,16 @@ function App() {
                     WorldCat
                   </a>
                 </motion.div>
+                <motion.button
+                  type="button"
+                  className="mt-8 border-2 border-black bg-white px-5 py-3 font-mono text-sm tracking-[0.08em] text-black shadow-[3px_3px_0_#000] transition-transform duration-150 hover:translate-x-[1px] hover:translate-y-[1px]"
+                  onClick={() => window.location.reload()}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.44, duration: 0.45 }}
+                >
+                  [ Try Another Pill ]
+                </motion.button>
               </>
             )}
           </motion.section>
