@@ -99,7 +99,7 @@ function App() {
     return next;
   }, []);
 
-  const beginDistillation = useCallback(() => {
+  const beginDistillation = useCallback((rawConfession) => {
     const { voidId } = distillationTimersRef.current;
     if (voidId != null) clearTimeout(voidId);
     distillationTimersRef.current = { voidId: null };
@@ -108,7 +108,9 @@ function App() {
     const ac = new AbortController();
     oracleAbortRef.current = ac;
 
-    const userConfession = inputRef.current.trim();
+    const userConfession = String(rawConfession ?? textareaRef.current?.value ?? "").trim();
+    inputRef.current = userConfession;
+    setInput(userConfession);
     const t0 = Date.now();
 
     setOracleError(null);
@@ -270,17 +272,6 @@ function App() {
     setPhase(PHASES.DISCARDING);
   }, [currentPrescription.book]);
 
-  const onInputChange = (event) => {
-    const next = event.target.value;
-    setInput(next);
-    if (!hasTyped && next.length > 0) setHasTyped(true);
-
-    if (window.innerWidth < 768) return;
-
-    event.target.style.height = "auto";
-    event.target.style.height = `${Math.min(event.target.scrollHeight, 280)}px`;
-  };
-
   const isDistilling = phase === PHASES.EVAPORATING || phase === PHASES.VOID;
   const isDiscarding = phase === PHASES.DISCARDING;
   const hideCornerLine =
@@ -327,16 +318,24 @@ function App() {
           >
             <textarea
               ref={textareaRef}
-              value={input}
-              onChange={onInputChange}
+              defaultValue=""
+              onChange={(event) => {
+                const next = event.target.value;
+                if (!hasTyped && next.length > 0) setHasTyped(true);
+
+                if (window.innerWidth < 768) return;
+                event.target.style.height = "auto";
+                event.target.style.height = `${Math.min(event.target.scrollHeight, 280)}px`;
+              }}
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck={false}
               onKeyDown={(event) => {
-                if (event.key === "Enter" && input.trim()) {
+                const currentValue = event.target.value;
+                if (event.key === "Enter" && currentValue.trim()) {
                   event.preventDefault();
-                  beginDistillation();
+                  beginDistillation(currentValue);
                 }
               }}
               className="paper-input h-[70svh] max-h-[70svh] min-h-[70svh] w-full resize-none px-2 py-2 text-left text-4xl md:h-auto md:max-h-[280px] md:min-h-[68px] md:px-0 md:py-0 md:text-center md:text-5xl"
